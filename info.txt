@@ -1,1 +1,1 @@
-Writ Python App.py to run this app.
+Write Python App.py to run this app.

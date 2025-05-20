@@ -66,6 +66,7 @@ class ChecklistProcessor(QWidget):
         match = re.match(r'^(\d+)', str(serial))
         return match.group(1) if match else str(serial)
 
+    #A little change from the original code
     def is_relay_related(self, description):
         description = str(description).lower()
         if 'relay' not in description:
@@ -83,20 +84,33 @@ class ChecklistProcessor(QWidget):
     def extract_customers(self, description):
         description = str(description).lower()
         result = []
+        ignore_phrases = [
+            r'for reference.*?\b{}',
+            r'for e.g..*?\b{}',
+            r'for example.*?\b{}',
+            r'QA Only.*?\b{}'
+            ]
         for cust in self.customers:
             cust_lower = cust.lower()
-            if re.search(rf'\b{cust_lower}\b', description):
-                if not re.search(rf'(for reference|e\.g\.|example|qa only).*?\b{cust_lower}\b', description):
-                    result.append(cust)
+            if any(re.search(phrase.format(cust_lower), description) for phrase in ignore_phrases):
+                continue
+            if re.search(rf'\b{cust_lower}\b', description, re.IGNORECASE):
+                result.append(cust)
         return result
 
     def extract_testers(self, description):
         description = str(description).lower()
         result = []
+        ignore_phrases =[
+            r'for reference.*?\b{}',
+            r'for e.g..*?\b{}',
+            r'For example.*?\b{}'
+            ]
         for tester in self.testers:
             tester_lower = tester.lower()
-            if re.search(rf'\b{tester_lower}\b', description):
-                if not re.search(rf'(for reference|e\.g\.|example|qa only).*?\b{tester_lower}\b', description):
+            if any(re.search(phrase.format(tester_lower), description) for phrase in ignore_phrases):
+                continue
+            if re.search(rf'\b{tester_lower}\b', description, re.IGNORECASE):
                     result.append(tester)
         return result
 
@@ -129,7 +143,6 @@ class ChecklistProcessor(QWidget):
                 current_heading = desc
             section_headings.append(current_heading)
         self.df["Section_Heading"] = section_headings
-
         if not found_heading:
             self.df["Section_Heading"] = self.page_name
         else:

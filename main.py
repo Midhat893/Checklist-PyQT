@@ -69,17 +69,11 @@ class ChecklistProcessor(QWidget):
     #A little change from the original code
     def is_relay_related(self, description):
         description = str(description).lower()
-        if 'relay' not in description:
-            return False
-        ignore_patterns = [
-            r'for reference.*?relay',
-            r'example.*?relay',
-            r'qa only.*?relay'
-        ]
+        ignore_patterns = [r'and/or.*?\b{}']
         for pattern in ignore_patterns:
             if re.search(pattern, description, re.IGNORECASE):
                 return False
-        return True
+        return 'relay' in description
 
     def extract_customers(self, description):
         description = str(description).lower()
@@ -133,20 +127,15 @@ class ChecklistProcessor(QWidget):
         self.df["Applies_To_Extracted"] = self.df["Description"].apply(self.extract_customers)
         self.df["Applies_To_ExtractedTester"] = self.df["Description"].apply(self.extract_testers)
 
-        current_heading = ""
+        current_heading = self.page_name
         section_headings = []
-        found_heading = False
         for _, row in self.df.iterrows():
             sno = str(row["S.No"]).strip()
-            desc = str(row["Description"]).strip()
+            desc = str(row["Description"]).strip() if not pd.isna(row["Description"]) else ""
             if not sno or sno.lower() == "nan":
                 current_heading = desc
             section_headings.append(current_heading)
         self.df["Section_Heading"] = section_headings
-        if not found_heading:
-            self.df["Section_Heading"] = self.page_name
-        else:
-            self.df["Section_heading"] = section_headings
 
         self.project_combo.clear()
         self.project_combo.addItem("All")

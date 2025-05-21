@@ -51,6 +51,10 @@ class ChecklistApp(QMainWindow):
         self.name_input = QLineEdit()
         layout.addWidget(self.name_label)
         layout.addWidget(self.name_input)
+        self.dark_mode_enabled = False
+        self.toggle_dark_mode_btn = QPushButton("Toggle Dark Mode")
+        self.toggle_dark_mode_btn.clicked.connect(self.toggle_dark_mode)
+        layout.addWidget(self.toggle_dark_mode_btn)
         
         self.welcome_tab.setLayout(layout)
         
@@ -69,9 +73,28 @@ class ChecklistApp(QMainWindow):
             if not self.bom_tab.load_checklist(file_path):
                 return
             self.tabs.setCurrentIndex(1)  # Switch to Schematic tab
+    
+    def apply_qss(self, qss_file):
+        try:
+            with open(qss_file, "r") as f:
+                self.setStyleSheet(f.read())
+        except Exception as e:
+            print(f"Failed to load QSS: {e}")
+
+    def toggle_dark_mode(self):
+        if self.dark_mode_enabled:
+            self.apply_qss("light-mode.qss")
+            self.toggle_dark_mode_btn.setText("Enable Dark Mode")
+        else:
+            self.apply_qss("dark-mode.qss")
+            self.toggle_dark_mode_btn.setText("Disable Dark Mode")
+        self.dark_mode_enabled = not self.dark_mode_enabled
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    with open("light-mode.qss", "r") as file:
+        app.setStyleSheet(file.read())
     window = ChecklistApp()
     window.show()
     sys.exit(app.exec())

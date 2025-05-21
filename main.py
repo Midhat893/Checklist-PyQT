@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (
     QPushButton, QFileDialog, QMessageBox
 )
 from PyQt6.QtCore import Qt
+from collapse import CollapsibleGroupBox
 
 
 class ChecklistProcessor(QWidget):
@@ -207,9 +208,7 @@ class ChecklistProcessor(QWidget):
             if points.empty:
                 continue
 
-            group_box = QGroupBox(heading)
-            group_layout = QVBoxLayout()
-
+            group_box = CollapsibleGroupBox(heading)
             for idx, row in points.iterrows():
                 base = row["Base_SNo"]
                 if (heading, base) not in relevant_bases:
@@ -244,9 +243,8 @@ class ChecklistProcessor(QWidget):
                 na_checkbox.toggled.connect(lambda checked, desc=desc_checkbox: desc.setChecked(False) if checked else None)
 
                 item_widget.setLayout(item_layout)
-                group_layout.addWidget(item_widget)
+                group_box.addWidget(item_widget)
 
-            group_box.setLayout(group_layout)
             self.scroll_layout.addWidget(group_box)
 
     def update_checkbox_state(self, state, idx, value):

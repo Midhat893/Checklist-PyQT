@@ -6,6 +6,16 @@ from PyQt6.QtGui import QIcon
 from Schematic import Schematic_Tab
 from BOM import BOM_Tab
 
+# Add this function to your App.py (or main entry file)
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+    
 class ChecklistApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -76,7 +86,7 @@ class ChecklistApp(QMainWindow):
     
     def apply_qss(self, qss_file):
         try:
-            with open(qss_file, "r") as f:
+            with open(resource_path(qss_file), "r") as f:
                 self.setStyleSheet(f.read())
         except Exception as e:
             print(f"Failed to load QSS: {e}")
@@ -93,7 +103,7 @@ class ChecklistApp(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    with open("light-mode.qss", "r") as file:
+    with open(resource_path("light-mode.qss"), "r") as file:
         app.setStyleSheet(file.read())
     window = ChecklistApp()
     window.show()

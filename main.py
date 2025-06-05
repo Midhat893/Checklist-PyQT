@@ -22,7 +22,7 @@ class ChecklistProcessor(QWidget):
         self.checkbox_states = {}
         self.df = None
 
-        self.customers = ["Intel", "Xilinx", "AMD", "Nvidia", "Hi-Silicon", "Advantest", "Mellanox"]
+        self.customers = ["Intel", "Xilinx", "AMD", "Nvidia", "Hi-Silicon", "Advantest", "Mellanox", "Yamaichi"]
         self.testers = ["93K", "T2K", "Ultraflex"]
 
         self.init_ui()

@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from main import ChecklistProcessor
 
-
 class FAB_Tab(QWidget):
     def __init__(self):
         super().__init__()
@@ -10,12 +9,12 @@ class FAB_Tab(QWidget):
             "FABRICATION",
             "fab_relay",
             "fab_checkbox",
-            "fab_na_checklist",
+            "fab_na_checkbox",
             "fab_download"
         )
         layout = QVBoxLayout(self)
         layout.addWidget(self.processor)
         self.setLayout(layout)
-     
+        
     def load_checklist(self, file_path):
         return self.processor.process_checklist(file_path)

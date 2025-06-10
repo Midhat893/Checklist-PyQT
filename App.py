@@ -100,6 +100,18 @@ class ChecklistApp(QMainWindow):
                 return
             if not self.bom_tab.load_checklist(file_path):
                 return
+            if not self.FAB_Tab.load_checklist(file_path):
+                return
+            if not self.Placement_Tab.load_checklist(file_path):
+                return
+            if not self.Power_Tab.load_checklist(file_path):
+                return
+            if not self.Routing_Tab.load_checklist(file_path):
+                return
+            if not self.Silkscreen_Tab.load_checklist(file_path):
+                return
+            if not self.NET_Tab.load_checklist(file_path):
+                return
             self.tabs.setCurrentIndex(1)  # Switch to Schematic tab
     
     def apply_qss(self, qss_file):

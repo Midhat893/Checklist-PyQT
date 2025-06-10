@@ -22,7 +22,14 @@ class ChecklistProcessor(QWidget):
         self.checkbox_states = {}
         self.df = None
 
-        self.customers = ["Intel", "Xilinx", "AMD", "Nvidia", "Hi-Silicon", "Advantest", "Mellanox", "Yamaichi"]
+        self.customers = ["Intel", 
+                          "Xilinx", 
+                          "AMD", 
+                          "Nvidia", 
+                          "Hi-Silicon", 
+                          "Advantest", 
+                          "Mellanox", 
+                          "Yamaichi"]
         self.testers = ["93K", "T2K", "Ultraflex"]
 
         self.init_ui()
@@ -139,14 +146,13 @@ class ChecklistProcessor(QWidget):
         self.df["Section_Heading"] = section_headings
 
         self.project_combo.clear()
+        self.project_combo.addItems(self.customers)
         self.project_combo.addItem("All")
-        all_projects = sorted(set(c for sub in self.df["Applies_To_Extracted"] for c in sub))
-        self.project_combo.addItems(all_projects)
+
 
         self.tester_combo.clear()
+        self.tester_combo.addItems(self.testers)
         self.tester_combo.addItem("All")
-        all_testers = sorted(set(t for sub in self.df["Applies_To_ExtractedTester"] for t in sub))
-        self.tester_combo.addItems(all_testers)
 
     def get_valid_sections(self, selected_project, selected_tester):
         if "Section_Heading" not in self.df.columns:

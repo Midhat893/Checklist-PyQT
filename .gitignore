@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 /build/
 /dist/
+/info.txt
+/feature-01.txt

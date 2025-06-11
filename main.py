@@ -149,10 +149,10 @@ class ChecklistProcessor(QWidget):
         self.project_combo.addItems(self.customers)
         self.project_combo.addItem("All")
 
-
         self.tester_combo.clear()
         self.tester_combo.addItems(self.testers)
         self.tester_combo.addItem("All")
+        self.tester_combo.addItem("None")
 
     def get_valid_sections(self, selected_project, selected_tester):
         if "Section_Heading" not in self.df.columns:

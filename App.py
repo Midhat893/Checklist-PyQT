@@ -65,7 +65,7 @@ class ChecklistApp(QMainWindow):
         layout = QVBoxLayout()
         
         # Title
-        title = QLabel("CHECKLIST FOR DESIGN AND QA")
+        title = QLabel("🧾 CHECKLIST FOR DESIGN AND QA")
         title.setStyleSheet("font-size: 16px; font-weight: bold;")
         layout.addWidget(title)
         
